@@ -1,0 +1,94 @@
+##### Task 1: Electricity Bill Calculator
+
+    
+ units = int(input("Enter Units Consumed: "))
+ Enter Units Consumed: 250
+
+ if units <= 100:
+             rate = 2
+ elif units <= 300:
+              rate = 3
+ else:
+              rate = 5
+ bill = units * rate
+ print("Units Consumed :", units)
+ print("Rate Per Unit  : ₹" + str(rate))
+ print("Total Bill     : ₹" + str(bill))
+
+
+Units Consumed : 250
+Rate Per Unit  : ₹3
+Total Bill     : ₹750
+
+
+
+
+Task 2: Online Ticket Booking Eligibility
+
+age = int(input("Enter Age: "))
+Enter Age: 22
+id_proof = input("Do you have a valid ID proof (yes/no): ")
+Do you have a valid ID proof (yes/no): yes
+ if age >= 18:
+   if id_proof.lower() == "yes":
+      print("Ticket Booking Successful")
+   else:
+     print("Valid ID Proof Required")
+else:
+     print("Not Eligible to Book the Ticket")
+
+Ticket Booking Successful
+
+
+age = int(input("Enter Age: "))
+Enter Age: 20
+id_proof = input("Do you have a valid ID proof (yes/no): ")
+Do you have a valid ID proof (yes/no): no
+ if age >= 18:
+   if id_proof.lower() == "yes":
+      print("Ticket Booking Successful")
+   else:
+     print("Valid ID Proof Required")
+else:
+     print("Not Eligible to Book the Ticket"
+
+Valid ID Proof Required
+
+
+
+age = int(input("Enter Age: "))
+Enter Age: 16
+id_proof = input("Do you have a valid ID proof (yes/no): ")
+Do you have a valid ID proof (yes/no): yes
+ if age >= 18:
+   if id_proof.lower() == "yes":
+      print("Ticket Booking Successful")
+   else:
+     print("Valid ID Proof Required")
+else:
+     print("Not Eligible to Book the Ticket"
+
+Not Eligible to Book the Ticket
+
+
+
+
+
+-----SQL Tasks
+
+Task 1: Employee Name Analysis
+
+
+select original(employee_name)from employees;
+select upper(employee_name) from employees;
+select length(employee_name) from employees;
+select reverse(employee_name) from employees;
+
+
+Task 2: Date & Time Functions
+
+select curdate();
+select curtime();
+select curdate time();
+select now();
+SELECT  DATEDIFF( '2026-01-01' , '2026-06-14');

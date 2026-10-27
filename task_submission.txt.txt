@@ -1,0 +1,454 @@
+
+==================================================
+PART 1: MySQL – Database Fundamentals
+==================================================
+
+1. Data:
+Data refers to raw facts or information.
+It can be numbers, text, images, or any other form of information.
+Example: Student name, age, marks, phone number, etc.
+Data is processed to produce meaningful information.
+
+2. Database:
+A database is an organized collection of data.
+It stores data in a structured way for easy access and management.
+Databases help users to insert, update, delete, and retrieve data.
+Example: Student database, employee database, banking database.
+
+3. DBMS:
+DBMS stands for Database Management System.
+It is software used to create, manage, and control databases.
+It helps users store, retrieve, update, and delete data.
+Example: MySQL, Oracle, SQL Server, PostgreSQL.
+
+4. RDBMS:
+RDBMS stands for Relational Database Management System.
+It stores data in tables with rows and columns.
+Tables can be connected using relationships like primary key and foreign key.
+Example: MySQL, Oracle, PostgreSQL.
+
+5. Entity:
+An entity is a real-world object or concept about which data is stored.
+Example: Student, Employee, Actor, Product, Customer.
+Each entity is represented as a table in a database.
+The properties of an entity are called attributes.
+
+6. SQL:
+SQL stands for Structured Query Language.
+It is used to communicate with relational databases.
+SQL is used to create, insert, update, delete, and retrieve data.
+Example commands: CREATE, INSERT, SELECT, UPDATE, DELETE.
+
+7. CRUD Operations:
+CRUD stands for Create, Read, Update, and Delete.
+Create means inserting new data.
+Read means displaying or retrieving data.
+Update means modifying existing data.
+Delete means removing unwanted data.
+
+
+==================================================
+PART 2: MySQL – Database and Table Creation
+==================================================
+
+-- Create database
+CREATE DATABASE training_db;
+
+-- Use the created database
+USE training_db;
+
+-- Create actor_details table
+CREATE TABLE actor_details (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    age INT
+);
+
+-- Insert minimum 10 actor records
+INSERT INTO actor_details (id, name, age) VALUES
+(1, 'Rajinikanth', 73),
+(2, 'Kamal Haasan', 69),
+(3, 'Vijay', 50),
+(4, 'Ajith Kumar', 53),
+(5, 'Suriya', 49),
+(6, 'Dhanush', 41),
+(7, 'Sivakarthikeyan', 39),
+(8, 'Vikram', 58),
+(9, 'Karthi', 47),
+(10, 'Silambarasan', 41);
+
+
+==================================================
+PART 3: MySQL – Queries
+==================================================
+
+-- 1. Display all records
+SELECT * FROM actor_details;
+
+-- 2. Display only actor names
+SELECT name FROM actor_details;
+
+-- 3. Display actor names and ages
+SELECT name, age FROM actor_details;
+
+-- 4. Display actors whose age is greater than 40
+SELECT * FROM actor_details
+WHERE age > 40;
+
+-- 5. Display actors whose age is less than 35
+SELECT * FROM actor_details
+WHERE age < 35;
+
+-- 6. Display actors whose age is equal to a specific value
+SELECT * FROM actor_details
+WHERE age = 41;
+
+-- 7. Display actors whose name is a specific value
+SELECT * FROM actor_details
+WHERE name = 'Vijay';
+
+-- 8. Update the age of a particular actor using WHERE clause
+UPDATE actor_details
+SET age = 51
+WHERE name = 'Vijay';
+
+-- 9. Delete a specific actor record using WHERE clause
+DELETE FROM actor_details
+WHERE name = 'Silambarasan';
+
+-- 10. Truncate the table
+TRUNCATE TABLE actor_details;
+
+-- 11. Reinsert records after truncation
+INSERT INTO actor_details (id, name, age) VALUES
+(1, 'Rajinikanth', 73),
+(2, 'Kamal Haasan', 69),
+(3, 'Vijay', 50),
+(4, 'Ajith Kumar', 53),
+(5, 'Suriya', 49),
+(6, 'Dhanush', 41),
+(7, 'Sivakarthikeyan', 39),
+(8, 'Vikram', 58),
+(9, 'Karthi', 47),
+(10, 'Silambarasan', 41);
+
+-- Display records after reinserting
+SELECT * FROM actor_details;
+
+
+==================================================
+PART 4: MySQL – Datatypes
+==================================================
+
+-- Create employee_details table with different datatypes
+CREATE TABLE employee_details (
+    emp_id INT PRIMARY KEY,
+    salary_float FLOAT,
+    mobile_number BIGINT,
+    bonus_double DOUBLE,
+    gender CHAR(1),
+    emp_name VARCHAR(50),
+    address TEXT,
+    department ENUM('HR', 'IT', 'Finance', 'Sales'),
+    is_active BOOLEAN,
+    joining_date DATE,
+    login_time TIME,
+    created_at DATETIME
+);
+
+-- Insert at least 3 records
+INSERT INTO employee_details
+(emp_id, salary_float, mobile_number, bonus_double, gender, emp_name, address, department, is_active, joining_date, login_time, created_at)
+VALUES
+(1, 25000.50, 9876543210, 5000.75, 'M', 'Gokul', 'Namakkal, Tamil Nadu', 'IT', TRUE, '2026-06-01', '09:30:00', '2026-06-01 09:30:00'),
+(2, 30000.75, 8765432109, 6500.25, 'F', 'Priya', 'Chennai, Tamil Nadu', 'HR', TRUE, '2026-06-02', '10:00:00', '2026-06-02 10:00:00'),
+(3, 28000.25, 7654321098, 4500.50, 'M', 'Arun', 'Coimbatore, Tamil Nadu', 'Finance', FALSE, '2026-06-03', '09:45:00', '2026-06-03 09:45:00');
+
+-- Display all employee records
+SELECT * FROM employee_details;
+
+
+==================================================
+PART 5: Python – Basics
+==================================================
+
+# Program 1: Print your name
+
+# This program prints my name
+print("Name: Sathis s")
+
+'''
+Multi-line comment:
+This program is used to display the name.
+The output is printed with a meaningful label.
+'''
+
+Output:
+Name: Gokul R
+
+
+# Program 2: Print your college name
+
+# This program prints my college name
+print("College Name: Excel Engineering College")
+
+'''
+Multi-line comment:
+This program displays the college name.
+The print statement is used to show the output.
+'''
+
+Output:
+College Name: Excel Engineering College
+
+
+# Program 3: Print your city
+
+# This program prints my city
+print("City: Chennai")
+
+'''
+Multi-line comment:
+This program displays the city name.
+The output is shown using print function.
+'''
+
+Output:
+City: Chennai
+
+
+# Program 4: Print your career goal
+
+# This program prints my career goal
+print("Career Goal: To become a Software developer Developer")
+
+'''
+Multi-line comment:
+This program displays the career goal.
+The output has a clear and meaningful label.
+'''
+
+Output:
+Career Goal: To become a Full Stack Developer
+
+
+# Program 5: Create variables and print all variables
+
+# Creating variables for personal details
+name = "Sathis s"
+age = 24
+city = "Chennai"
+qualification = "B.Tech Information Technology"
+percentage = 87.0
+
+'''
+Multi-line comment:
+This program stores personal details in variables.
+All variables are printed with meaningful labels.
+'''
+
+# Printing all variables
+print("Name:", name)
+print("Age:", age)
+print("City:", city)
+print("Qualification:", qualification)
+print("Percentage:", percentage)
+
+Output:
+Name: Sathis s
+Age: 24
+City: Chennai
+Qualification: B.Tech Information Technology
+Percentage: 84.0
+
+
+==================================================
+PART 6: Python – Datatypes
+==================================================
+
+# Program: Display datatypes using type()
+
+# Creating variables with different datatypes
+integer_value = 100
+float_value = 25.75
+string_value = "Python Programming"
+boolean_value = True
+
+'''
+Multi-line comment:
+This program creates variables using different datatypes.
+The type() function is used to display each datatype.
+'''
+
+# Printing values and their datatypes
+print("Integer Value:", integer_value)
+print("Datatype:", type(integer_value))
+
+print("Float Value:", float_value)
+print("Datatype:", type(float_value))
+
+print("String Value:", string_value)
+print("Datatype:", type(string_value))
+
+print("Boolean Value:", boolean_value)
+print("Datatype:", type(boolean_value))
+
+Output:
+Integer Value: 100
+Datatype: <class 'int'>
+Float Value: 25.75
+Datatype: <class 'float'>
+String Value: Python Programming
+Datatype: <class 'str'>
+Boolean Value: True
+Datatype: <class 'bool'>
+
+
+==================================================
+PART 7: Python – String Operations
+==================================================
+
+# Program: String concatenation using +
+
+# Creating two string variables
+first_name = "Sathis"
+last_name = "S"
+
+'''
+Multi-line comment:
+This program combines two strings using the + operator.
+It also shows examples of single quotes and double quotes.
+'''
+
+# String concatenation
+full_name = first_name + " " + last_name
+
+# Printing combined result
+print("Combined Name:", full_name)
+
+# Single quotes example
+single_quote_string = 'This is a single quotes string'
+
+# Double quotes example
+double_quote_string = "This is a double quotes string"
+
+print("Single Quotes Example:", single_quote_string)
+print("Double Quotes Example:", double_quote_string)
+
+Output:
+Combined Name: Gokul R
+Single Quotes Example: This is a single quotes string
+Double Quotes Example: This is a double quotes string
+
+
+==================================================
+PART 8: Python – Type Casting
+==================================================
+
+# Program 1: int() conversion
+
+# Converting string to integer
+value_before = "100"
+
+'''
+Multi-line comment:
+This program converts a string value into an integer.
+The value before and after conversion is displayed.
+'''
+
+print("Before Conversion:", value_before)
+print("Before Conversion Type:", type(value_before))
+
+value_after = int(value_before)
+
+print("After Conversion:", value_after)
+print("After Conversion Type:", type(value_after))
+
+Output:
+Before Conversion: 100
+Before Conversion Type: <class 'str'>
+After Conversion: 100
+After Conversion Type: <class 'int'>
+
+
+# Program 2: str() conversion
+
+# Converting integer to string
+value_before = 200
+
+'''
+Multi-line comment:
+This program converts an integer value into a string.
+The value before and after conversion is displayed.
+'''
+
+print("Before Conversion:", value_before)
+print("Before Conversion Type:", type(value_before))
+
+value_after = str(value_before)
+
+print("After Conversion:", value_after)
+print("After Conversion Type:", type(value_after))
+
+Output:
+Before Conversion: 200
+Before Conversion Type: <class 'int'>
+After Conversion: 200
+After Conversion Type: <class 'str'>
+
+
+# Program 3: float() conversion
+
+# Converting integer to float
+value_before = 50
+
+'''
+Multi-line comment:
+This program converts an integer value into a float.
+The value before and after conversion is displayed.
+'''
+
+print("Before Conversion:", value_before)
+print("Before Conversion Type:", type(value_before))
+
+value_after = float(value_before)
+
+print("After Conversion:", value_after)
+print("After Conversion Type:", type(value_after))
+
+Output:
+Before Conversion: 50
+Before Conversion Type: <class 'int'>
+After Conversion: 50.0
+After Conversion Type: <class 'float'>
+
+
+# Program 4: bool() conversion
+
+# Converting integer to boolean
+value_before = 1
+
+'''
+Multi-line comment:
+This program converts an integer value into a boolean value.
+The value before and after conversion is displayed.
+'''
+
+print("Before Conversion:", value_before)
+print("Before Conversion Type:", type(value_before))
+
+value_after = bool(value_before)
+
+print("After Conversion:", value_after)
+print("After Conversion Type:", type(value_after))
+
+Output:
+Before Conversion: 1
+Before Conversion Type: <class 'int'>
+After Conversion: True
+After Conversion Type: <class 'bool'>
+
+
+==================================================
+END OF TASK SUBMISSION
+==================================================

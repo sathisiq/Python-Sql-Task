@@ -1,0 +1,228 @@
+
+ MySQL – TABLE CREATION & DATA INSERTIO
+
+CREATE TABLE employees (
+    emp_id      INT PRIMARY KEY,
+    emp_name    VARCHAR(100),
+    department  VARCHAR(50),
+    salary      DECIMAL(10, 2),
+    city        VARCHAR(50)
+);
+
+INSERT INTO employees (emp_id, emp_name, department, salary, city) VALUES
+(1,  'Arjun Kumar',     'HR',        45000.00, 'Chennai'),
+(2,  'Priya Sharma',    'IT',        72000.00, 'Bangalore'),
+(3,  'Ravi Verma',      'Finance',   60000.00, 'Mumbai'),
+(4,  'Sneha Nair',      'IT',        85000.00, 'Hyderabad'),
+(5,  'Karthik Raja',    'HR',        38000.00, 'Coimbatore'),
+(6,  'Divya Menon',     'Finance',   55000.00, 'Chennai'),
+(7,  'Vikram Patel',    'IT',        92000.00, 'Pune'),
+(8,  'Ananya Iyer',     'Marketing', 48000.00, 'Delhi'),
+(9,  'Suresh Babu',     'HR',        41000.00, 'Chennai'),
+(10, 'Meena Pillai',    'Marketing', 53000.00, 'Bangalore'),
+(11, 'Rahul Gupta',     'Finance',   67000.00, 'Mumbai'),
+(12, 'Lakshmi Devi',    'Marketing', 46000.00, 'Hyderabad'),
+(13, 'Arun Krishnan',   'IT',        78000.00, 'Coimbatore'),
+(14, 'Pooja Reddy',     'Finance',   72000.00, 'Bangalore'),
+(15, 'Ganesh Murthy',   'Marketing', 51000.00, 'Chennai');
+
+
+
+  Count the total number of employees using COUNT()
+SELECT COUNT(*) AS total_employees
+FROM employees;
+
+Find the highest salary using MAX()
+SELECT MAX(salary) AS highest_salary
+FROM employees;
+
+  Find the lowest salary using MIN()
+SELECT MIN(salary) AS lowest_salary
+FROM employees;
+
+  Find the average salary using AVG()
+SELECT AVG(salary) AS average_salary
+FROM employees;
+
+ Find the total salary of all employees using SUM()
+SELECT SUM(salary) AS total_salary
+FROM employees;
+ 
+
+  Count employees department-wise
+SELECT department, COUNT(*) AS employee_count
+FROM employees
+GROUP BY department;
+
+  Find the average salary for each department
+SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department;
+
+  Find the maximum salary in each department
+SELECT department, MAX(salary) AS max_salary
+FROM employees
+GROUP BY department;
+
+  Find the minimum salary in each department
+SELECT department, MIN(salary) AS min_salary
+FROM employees
+GROUP BY department;
+
+  Find the total salary paid for each department
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department;
+
+
+ 
+
+  Display departments having more than 2 employees
+SELECT department, COUNT(*) AS employee_count
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 2;
+
+  Display departments whose average salary is greater than 30000
+SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department
+HAVING AVG(salary) > 30000;
+
+  Display departments whose total salary is greater than 100000
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department
+HAVING SUM(salary) > 100000;
+
+
+ 
+ Python – USER-DEFINED FUNCTIONS
+
+# Function to print a welcome message
+def welcome_message():
+    print("Welcome to Python Functions!")
+
+# Call the function
+welcome_message()
+
+
+# Function to add two numbers
+def add(a, b):
+    return a + b
+
+# Function to subtract two numbers
+def subtract(a, b):
+    return a - b
+
+# Function to multiply two numbers
+def multiply(a, b):
+    return a * b
+
+# Function to divide two numbers
+def divide(a, b):
+    if b != 0:
+        return a / b
+    else:
+        return "Error: Division by zero is not allowed"
+
+# Calling each arithmetic function and displaying output
+print("Addition       :", add(20, 10))
+print("Subtraction    :", subtract(20, 10))
+print("Multiplication :", multiply(20, 10))
+print("Division       :", divide(20, 10))
+
+
+ 
+ 
+
+# Function using positional arguments
+def student_info(name, age, city):
+    print(f"Name: {name}, Age: {age}, City: {city}")
+
+# Arguments are passed in order (positional)
+student_info("Arjun", 21, "Coimbatore")
+
+ 
+
+# Function using keyword arguments
+def employee_details(emp_name, department, salary):
+    print(f"Employee: {emp_name} | Department: {department} | Salary: {salary}")
+
+# Arguments are passed by keyword name (order does not matter)
+employee_details(department="IT", salary=75000, emp_name="Priya")
+
+ 
+
+# Function with default argument values
+def greet(name, message="Good Morning!"):
+    print(f"Hello {name}, {message}")
+
+# Called without the optional argument (uses default)
+greet("Karthik")
+# Called with both arguments (overrides default)
+greet("Sneha", "Good Evening!")
+
+
+# -----------------------------------------------------------
+# Program 4: Variable Length Arguments using *args
+# -----------------------------------------------------------
+
+# Function that accepts any number of positional arguments
+def calculate_total(*args):
+    total = sum(args)
+    print(f"Numbers passed : {args}")
+    print(f"Total Sum      : {total}")
+
+# Call with different numbers of arguments
+calculate_total(10, 20, 30)
+calculate_total(5, 15, 25, 35, 45)
+
+ 
+
+# Function that accepts any number of keyword arguments
+def display_profile(**kwargs):
+    print("Profile Details:")
+    for key, value in kwargs.items():
+        print(f"  {key}: {value}")
+
+# Call with different keyword arguments
+display_profile(name="Divya", age=25, city="Chennai", department="Finance")
+
+
+ 
+
+# Function returns the sum of two numbers
+def sum_of_two(a, b):
+    return a + b
+
+# Store the returned value in a variable and print it
+result_sum = sum_of_two(45, 55)
+print("Sum of 45 and 55      :", result_sum)
+
+
+ 
+
+# Function returns the square of a number
+def square(n):
+    return n * n
+
+# Store the returned value in a variable and print it
+result_square = square(12)
+print("Square of 12          :", result_square)
+
+ 
+
+# Function returns the largest among three numbers
+def largest_of_three(a, b, c):
+    if a >= b and a >= c:
+        return a
+    elif b >= a and b >= c:
+        return b
+    else:
+        return c
+
+# Store the returned value in a variable and print it
+result_largest = largest_of_three(42, 87, 65)
+print("Largest of 42, 87, 65 :", result_largest)
+ 

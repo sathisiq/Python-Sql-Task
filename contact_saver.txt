@@ -1,0 +1,502 @@
+"""
+Contact Saver Application
+A Python-MySQL application for managing contacts with CRUD operations.
+Uses mysql-connector-python for database connectivity and parameterized queries.
+"""
+
+import mysql.connector
+from mysql.connector import Error
+import re
+
+# Database configuration
+DB_CONFIG = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'Sathis@2002',  # MySQL password configured
+    'database': 'contactsaver'
+}
+
+
+def create_connection():
+    """
+    Create and return a database connection.
+    Handles connection errors gracefully.
+    """
+    try:
+        connection = mysql.connector.connect(**DB_CONFIG)
+        if connection.is_connected():
+            return connection
+    except Error as e:
+        print(f"❌ Error connecting to MySQL: {e}")
+        return None
+
+
+def create_database_and_table():
+    """
+    Create the contactsaver database and contacts table if they don't exist.
+    This function runs without selecting a specific database first.
+    """
+    try:
+        # Connect without specifying a database
+        connection = mysql.connector.connect(
+            host=DB_CONFIG['host'],
+            user=DB_CONFIG['user'],
+            password=DB_CONFIG['password']
+        )
+        cursor = connection.cursor()
+
+        # Create database if it doesn't exist
+        cursor.execute("CREATE DATABASE IF NOT EXISTS contactsaver")
+        print("✅ Database 'contactsaver' ready.")
+
+        # Switch to the database
+        cursor.execute("USE contactsaver")
+
+        # Create contacts table if it doesn't exist
+        create_table_query = """
+        CREATE TABLE IF NOT EXISTS contacts (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            email VARCHAR(100) UNIQUE NOT NULL,
+            phone VARCHAR(15) UNIQUE NOT NULL,
+            address VARCHAR(255),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+        cursor.execute(create_table_query)
+        connection.commit()
+        print("✅ Table 'contacts' ready.")
+
+        cursor.close()
+        connection.close()
+    except Error as e:
+        print(f"❌ Error creating database/table: {e}")
+
+
+def insert_sample_data():
+    """
+    Insert sample contact records into the database for testing.
+    Only inserts if table is empty.
+    """
+    try:
+        connection = create_connection()
+        if connection is None:
+            return
+
+        cursor = connection.cursor()
+
+        # Check if table already has data
+        cursor.execute("SELECT COUNT(*) FROM contacts")
+        count = cursor.fetchone()[0]
+
+        if count == 0:
+            # Sample contacts data
+            sample_data = [
+                ("Alice Johnson", "alice@gmail.com", "9876543210", "123 Main St, New York"),
+                ("Bob Smith", "bob@yahoo.com", "9876543211", "456 Oak Ave, Los Angeles"),
+                ("Carol White", "carol@hotmail.com", "9876543212", "789 Pine Rd, Chicago"),
+                ("David Brown", "david@gmail.com", "9876543213", "321 Elm St, Houston"),
+                ("Emma Davis", "emma@yahoo.com", "9876543214", "654 Maple Dr, Phoenix")
+            ]
+
+            insert_query = """
+            INSERT INTO contacts (name, email, phone, address)
+            VALUES (%s, %s, %s, %s)
+            """
+
+            for contact in sample_data:
+                cursor.execute(insert_query, contact)
+
+            connection.commit()
+            print("✅ Sample data inserted successfully.")
+        else:
+            print("ℹ️  Table already contains data. Skipping sample data insertion.")
+
+        cursor.close()
+        connection.close()
+    except Error as e:
+        print(f"❌ Error inserting sample data: {e}")
+
+
+def add_contact():
+    """
+    Add a new contact to the database.
+    Validates email format and phone number length.
+    """
+    try:
+        print("\n--- Add New Contact ---")
+        name = input("Enter contact name: ").strip()
+        email = input("Enter email address: ").strip()
+        phone = input("Enter phone number: ").strip()
+        address = input("Enter address (optional): ").strip()
+
+        # Validate inputs
+        if not name or not email or not phone:
+            print("❌ Name, email, and phone are required!")
+            return
+
+        # Validate email format
+        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_pattern, email):
+            print("❌ Invalid email format!")
+            return
+
+        # Validate phone number (at least 10 digits)
+        if not phone.isdigit() or len(phone) < 10:
+            print("❌ Phone number must contain at least 10 digits!")
+            return
+
+        connection = create_connection()
+        if connection is None:
+            return
+
+        cursor = connection.cursor()
+        insert_query = """
+        INSERT INTO contacts (name, email, phone, address)
+        VALUES (%s, %s, %s, %s)
+        """
+
+        try:
+            cursor.execute(insert_query, (name, email, phone, address))
+            connection.commit()
+            print(f"✅ Contact '{name}' added successfully!")
+        except mysql.connector.Error as e:
+            if "Duplicate entry" in str(e):
+                print("❌ Email or phone number already exists!")
+            else:
+                print(f"❌ Error adding contact: {e}")
+
+        cursor.close()
+        connection.close()
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}")
+
+
+def view_all_contacts():
+    """
+    Display all contacts stored in the database in a formatted table.
+    """
+    try:
+        connection = create_connection()
+        if connection is None:
+            return
+
+        cursor = connection.cursor()
+        select_query = "SELECT id, name, email, phone, address FROM contacts ORDER BY id"
+        cursor.execute(select_query)
+        contacts = cursor.fetchall()
+
+        if not contacts:
+            print("\n❌ No contacts found in the database.")
+        else:
+            print("\n--- All Contacts ---")
+            print(f"{'ID':<5} {'Name':<20} {'Email':<30} {'Phone':<15} {'Address':<30}")
+            print("-" * 100)
+            for contact in contacts:
+                contact_id, name, email, phone, address = contact
+                address = address if address else "N/A"
+                print(f"{contact_id:<5} {name:<20} {email:<30} {phone:<15} {address:<30}")
+            print(f"\n✅ Total contacts: {len(contacts)}")
+
+        cursor.close()
+        connection.close()
+    except Error as e:
+        print(f"❌ Error retrieving contacts: {e}")
+
+
+def search_contact():
+    """
+    Search for a contact by name, email, or phone number.
+    User can choose the search criteria.
+    """
+    try:
+        print("\n--- Search Contact ---")
+        print("Search by:")
+        print("1. Name")
+        print("2. Email")
+        print("3. Phone Number")
+        choice = input("Enter your choice (1-3): ").strip()
+
+        search_query = None
+        search_term = None
+
+        if choice == "1":
+            search_term = input("Enter name to search: ").strip()
+            if not search_term:
+                print("❌ Name cannot be empty!")
+                return
+            search_query = "SELECT id, name, email, phone, address FROM contacts WHERE name LIKE %s"
+            search_term = f"%{search_term}%"
+        elif choice == "2":
+            search_term = input("Enter email to search: ").strip()
+            if not search_term:
+                print("❌ Email cannot be empty!")
+                return
+            search_query = "SELECT id, name, email, phone, address FROM contacts WHERE email = %s"
+        elif choice == "3":
+            search_term = input("Enter phone number to search: ").strip()
+            if not search_term:
+                print("❌ Phone number cannot be empty!")
+                return
+            search_query = "SELECT id, name, email, phone, address FROM contacts WHERE phone = %s"
+        else:
+            print("❌ Invalid choice! Please enter 1, 2, or 3.")
+            return
+
+        connection = create_connection()
+        if connection is None:
+            return
+
+        cursor = connection.cursor()
+        cursor.execute(search_query, (search_term,))
+        results = cursor.fetchall()
+
+        if not results:
+            print(f"❌ No contact found with the specified criteria.")
+        else:
+            print(f"\n--- Search Results ---")
+            print(f"{'ID':<5} {'Name':<20} {'Email':<30} {'Phone':<15} {'Address':<30}")
+            print("-" * 100)
+            for result in results:
+                contact_id, name, email, phone, address = result
+                address = address if address else "N/A"
+                print(f"{contact_id:<5} {name:<20} {email:<30} {phone:<15} {address:<30}")
+            print(f"\n✅ Found {len(results)} contact(s).")
+
+        cursor.close()
+        connection.close()
+    except Error as e:
+        print(f"❌ Error searching contact: {e}")
+
+
+def update_contact():
+    """
+    Update an existing contact's information.
+    User selects which fields to update.
+    """
+    try:
+        print("\n--- Update Contact ---")
+        contact_id = input("Enter contact ID to update: ").strip()
+
+        if not contact_id.isdigit():
+            print("❌ Invalid contact ID! Please enter a valid number.")
+            return
+
+        connection = create_connection()
+        if connection is None:
+            return
+
+        cursor = connection.cursor()
+
+        # Check if contact exists
+        cursor.execute("SELECT * FROM contacts WHERE id = %s", (contact_id,))
+        contact = cursor.fetchone()
+
+        if not contact:
+            print(f"❌ No contact found with ID {contact_id}.")
+            cursor.close()
+            connection.close()
+            return
+
+        print(f"\nCurrent contact details:")
+        print(f"Name: {contact[1]}, Email: {contact[2]}, Phone: {contact[3]}, Address: {contact[4]}")
+
+        print("\nWhat would you like to update?")
+        print("1. Name")
+        print("2. Email")
+        print("3. Phone Number")
+        print("4. Address")
+        print("5. All fields")
+
+        update_choice = input("Enter your choice (1-5): ").strip()
+
+        if update_choice == "1":
+            new_name = input("Enter new name: ").strip()
+            if not new_name:
+                print("❌ Name cannot be empty!")
+                return
+            cursor.execute("UPDATE contacts SET name = %s WHERE id = %s", (new_name, contact_id))
+            print(f"✅ Name updated to '{new_name}'.")
+
+        elif update_choice == "2":
+            new_email = input("Enter new email: ").strip()
+            if not new_email or not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', new_email):
+                print("❌ Invalid email format!")
+                return
+            try:
+                cursor.execute("UPDATE contacts SET email = %s WHERE id = %s", (new_email, contact_id))
+                print(f"✅ Email updated to '{new_email}'.")
+            except mysql.connector.Error as e:
+                if "Duplicate entry" in str(e):
+                    print("❌ Email already exists!")
+                    cursor.close()
+                    connection.close()
+                    return
+
+        elif update_choice == "3":
+            new_phone = input("Enter new phone number: ").strip()
+            if not new_phone.isdigit() or len(new_phone) < 10:
+                print("❌ Phone number must contain at least 10 digits!")
+                return
+            try:
+                cursor.execute("UPDATE contacts SET phone = %s WHERE id = %s", (new_phone, contact_id))
+                print(f"✅ Phone number updated to '{new_phone}'.")
+            except mysql.connector.Error as e:
+                if "Duplicate entry" in str(e):
+                    print("❌ Phone number already exists!")
+                    cursor.close()
+                    connection.close()
+                    return
+
+        elif update_choice == "4":
+            new_address = input("Enter new address: ").strip()
+            cursor.execute("UPDATE contacts SET address = %s WHERE id = %s", (new_address, contact_id))
+            print(f"✅ Address updated to '{new_address}'.")
+
+        elif update_choice == "5":
+            new_name = input("Enter new name: ").strip()
+            new_email = input("Enter new email: ").strip()
+            new_phone = input("Enter new phone number: ").strip()
+            new_address = input("Enter new address: ").strip()
+
+            if not new_name or not new_email or not new_phone:
+                print("❌ Name, email, and phone are required!")
+                return
+
+            if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', new_email):
+                print("❌ Invalid email format!")
+                return
+
+            if not new_phone.isdigit() or len(new_phone) < 10:
+                print("❌ Phone number must contain at least 10 digits!")
+                return
+
+            try:
+                cursor.execute(
+                    "UPDATE contacts SET name = %s, email = %s, phone = %s, address = %s WHERE id = %s",
+                    (new_name, new_email, new_phone, new_address, contact_id)
+                )
+                print("✅ All fields updated successfully.")
+            except mysql.connector.Error as e:
+                if "Duplicate entry" in str(e):
+                    print("❌ Email or phone number already exists!")
+                    cursor.close()
+                    connection.close()
+                    return
+        else:
+            print("❌ Invalid choice! Please enter 1-5.")
+            cursor.close()
+            connection.close()
+            return
+
+        connection.commit()
+        cursor.close()
+        connection.close()
+    except Error as e:
+        print(f"❌ Error updating contact: {e}")
+
+
+def delete_contact():
+    """
+    Delete a contact from the database.
+    Asks for confirmation before deletion.
+    """
+    try:
+        print("\n--- Delete Contact ---")
+        contact_id = input("Enter contact ID to delete: ").strip()
+
+        if not contact_id.isdigit():
+            print("❌ Invalid contact ID! Please enter a valid number.")
+            return
+
+        connection = create_connection()
+        if connection is None:
+            return
+
+        cursor = connection.cursor()
+
+        # Check if contact exists
+        cursor.execute("SELECT name FROM contacts WHERE id = %s", (contact_id,))
+        contact = cursor.fetchone()
+
+        if not contact:
+            print(f"❌ No contact found with ID {contact_id}.")
+            cursor.close()
+            connection.close()
+            return
+
+        # Confirmation before deletion
+        confirm = input(f"Are you sure you want to delete '{contact[0]}'? (yes/no): ").strip().lower()
+        if confirm != "yes":
+            print("❌ Deletion cancelled.")
+            cursor.close()
+            connection.close()
+            return
+
+        # Delete the contact
+        delete_query = "DELETE FROM contacts WHERE id = %s"
+        cursor.execute(delete_query, (contact_id,))
+        connection.commit()
+
+        print(f"✅ Contact '{contact[0]}' deleted successfully.")
+
+        cursor.close()
+        connection.close()
+    except Error as e:
+        print(f"❌ Error deleting contact: {e}")
+
+
+def display_menu():
+    """
+    Display the main menu and return user's choice.
+    """
+    print("\n" + "=" * 50)
+    print("     📇 CONTACT SAVER APPLICATION 📇")
+    print("=" * 50)
+    print("1. ➕ Add a new contact")
+    print("2. 👁️  View all contacts")
+    print("3. 🔍 Search for a contact")
+    print("4. ✏️  Update a contact")
+    print("5. 🗑️  Delete a contact")
+    print("6. 🚪 Exit")
+    print("=" * 50)
+    choice = input("Enter your choice (1-6): ").strip()
+    return choice
+
+
+def main():
+    """
+    Main function to run the Contact Saver Application.
+    Handles the menu loop and calls appropriate functions.
+    """
+    print("\n🔧 Initializing Contact Saver Application...")
+    
+    # Create database and table
+    create_database_and_table()
+    
+    # Insert sample data
+    insert_sample_data()
+
+    while True:
+        choice = display_menu()
+
+        if choice == "1":
+            add_contact()
+        elif choice == "2":
+            view_all_contacts()
+        elif choice == "3":
+            search_contact()
+        elif choice == "4":
+            update_contact()
+        elif choice == "5":
+            delete_contact()
+        elif choice == "6":
+            print("\n👋 Thank you for using Contact Saver Application!")
+            print("🔌 Connection closed. Goodbye!")
+            break
+        else:
+            print("❌ Invalid choice! Please enter a number between 1 and 6.")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,331 @@
+
+
+==========================================
+PYTHON – FILE HANDLING
+======================
+
+Name : Arun
+Age : 20
+Department : Computer Science
+College : ABC Engineering College
+City : Chennai
+
+# Program to demonstrate file reading methods
+
+
+file = open("student.txt", "r")
+
+print("Complete File Contents:")
+print(file.read())
+
+file.close()
+
+
+file = open("student.txt", "r")
+
+print("\nFirst 20 Characters:")
+print(file.read(20))
+
+file.close()
+
+file = open("student.txt", "r")
+
+print("\nReading Line by Line:")
+print(file.readline())
+print(file.readline())
+print(file.readline())
+
+file.close()
+
+file = open("student.txt", "r")
+
+print("\nReading using readlines():")
+print(file.readlines())
+
+file.close()
+ 
+# Program to write and append into a file
+
+ 
+file = open("notes.txt", "w")
+
+file.write("Python is easy to learn.\n")
+file.write("Python supports OOP.\n")
+file.write("Python supports File Handling.\n")
+file.write("Python supports Exception Handling.\n")
+file.write("Python is platform independent.\n")
+
+file.close()
+
+print("Five lines written successfully.")
+
+ 
+file = open("notes.txt", "a")
+
+file.write("Python supports MySQL.\n")
+file.write("Python is beginner friendly.\n")
+file.write("Python has many libraries.\n")
+
+file.close()
+
+print("Three lines appended successfully.")
+ 
+# Demonstration of tell() and seek()
+
+file = open("notes.txt", "r")
+
+print("Current Position :", file.tell())
+
+print(file.read(30))
+
+print("Position after reading :", file.tell())
+
+file.seek(0)
+
+print("Position after seek() :", file.tell())
+
+print(file.read(40))
+
+file.close()
+ 
+# Create file using x mode
+
+try:
+    file = open("newfile.txt", "x")
+    file.write("This file is created using x mode.")
+    file.close()
+    print("newfile.txt created successfully.")
+except FileExistsError:
+    print("File already exists.")
+ 
+# Reading file using with open()
+
+with open("student.txt", "r") as file:
+
+    print(file.read())
+```
+
+==========================================
+PYTHON – ERROR & EXCEPTION HANDLING
+===================================
+
+---
+
+## SyntaxError
+
+```python
+print("Hello"
+```
+
+---
+
+## IndentationError
+
+```python
+if True:
+print("Welcome")
+```
+
+---
+
+## NameError
+
+```python
+print(student_name)
+```
+
+---
+
+## TypeError
+
+```python
+num = 10
+text = "Python"
+
+print(num + text)
+```
+
+---
+
+## ValueError
+
+```python
+num = int("Python")
+```
+
+---
+
+## ZeroDivisionError
+
+```python
+print(100/0)
+```
+
+==========================================
+Exception Handling
+==================
+
+---
+
+## Division by Zero
+
+```python
+try:
+    num1 = int(input("Enter First Number: "))
+    num2 = int(input("Enter Second Number: "))
+
+    print("Result =", num1 / num2)
+
+except ZeroDivisionError:
+    print("Error : Cannot divide by zero.")
+
+finally:
+    print("Division Program Completed.")
+```
+
+---
+
+## Invalid Integer Input
+
+```python
+try:
+
+    number = int(input("Enter an Integer: "))
+
+    print("You Entered :", number)
+
+except ValueError:
+
+    print("Invalid Integer Input.")
+
+finally:
+
+    print("Input Program Completed.")
+```
+
+---
+
+## Undefined Variable
+
+```python
+try:
+
+    print(emp_name)
+
+except NameError:
+
+    print("Undefined Variable.")
+
+finally:
+
+    print("Program Finished.")
+```
+
+==========================================
+MYSQL – VIEWS
+=============
+
+```sql
+CREATE DATABASE CompanyDB;
+
+USE CompanyDB;
+
+CREATE TABLE employees
+(
+emp_id INT PRIMARY KEY,
+emp_name VARCHAR(50),
+department VARCHAR(30),
+salary DECIMAL(10,2),
+city VARCHAR(30)
+);
+
+INSERT INTO employees VALUES
+(101,'Arun','HR',25000,'Chennai'),
+(102,'Bala','IT',35000,'Coimbatore'),
+(103,'Kumar','Sales',28000,'Madurai'),
+(104,'Priya','Finance',45000,'Chennai'),
+(105,'Rani','HR',27000,'Salem'),
+(106,'Deepak','IT',39000,'Trichy'),
+(107,'Hari','Sales',30000,'Erode'),
+(108,'Anitha','Finance',42000,'Chennai'),
+(109,'Vijay','IT',50000,'Coimbatore'),
+(110,'John','Marketing',32000,'Madurai');
+
+SELECT * FROM employees;
+
+CREATE VIEW employee_view AS
+SELECT
+emp_name,
+department,
+salary
+FROM employees;
+
+SELECT * FROM employee_view;
+
+CREATE OR REPLACE VIEW employee_view AS
+SELECT
+emp_name,
+department,
+salary,
+city
+FROM employees;
+
+SELECT * FROM employee_view;
+
+DROP VIEW employee_view;
+```
+
+==========================================
+MYSQL – TRANSACTIONS
+====================
+
+```sql
+CREATE TABLE bank_accounts
+(
+account_id INT PRIMARY KEY,
+account_holder VARCHAR(50),
+balance DECIMAL(10,2)
+);
+
+INSERT INTO bank_accounts VALUES
+(1,'Arun',10000),
+(2,'Bala',8000),
+(3,'Kumar',12000),
+(4,'Priya',15000),
+(5,'Rani',9000);
+
+-- Before Transaction
+SELECT * FROM bank_accounts;
+
+-- Transaction 1
+START TRANSACTION;
+
+UPDATE bank_accounts
+SET balance = balance - 500
+WHERE account_id = 1;
+
+UPDATE bank_accounts
+SET balance = balance + 500
+WHERE account_id = 2;
+
+COMMIT;
+
+-- After Commit
+SELECT * FROM bank_accounts;
+
+-- Transaction 2
+START TRANSACTION;
+
+UPDATE bank_accounts
+SET balance = balance - 500
+WHERE account_id = 3;
+
+UPDATE bank_accounts
+SET balance = balance + 500
+WHERE account_id = 4;
+
+ROLLBACK;
+
+-- After Rollback
+SELECT * FROM bank_accounts;
+```

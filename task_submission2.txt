@@ -1,0 +1,263 @@
+-- ==========================================
+-- CREATE TABLE
+-- ==========================================
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    department VARCHAR(50),
+    salary INT,
+    city VARCHAR(50)
+);
+
+-- ==========================================
+-- INSERT RECORDS
+-- ==========================================
+
+INSERT INTO employees VALUES
+(1, 'Arun', 'HR', 30000, 'Chennai'),
+(2, 'Bala', 'Testing', 25000, 'Coimbatore'),
+(3, 'Charan', 'Development', 45000, 'Madurai'),
+(4, 'Divya', 'HR', 28000, 'Chennai'),
+(5, 'Eshan', 'Testing', 35000, 'Salem'),
+(6, 'Farhan', 'Development', 50000, 'Trichy'),
+(7, 'Akhil', 'Development', 55000, 'Chennai'),
+(8, 'Gavin', 'HR', 22000, 'Erode'),
+(9, 'Harsha', 'Testing', 40000, 'Madurai'),
+(10, 'Anand', 'Development', 32000, 'Coimbatore');
+
+-- ==========================================
+-- COMPARISON OPERATORS
+-- ==========================================
+
+-- Salary equal to 30000
+SELECT * FROM employees
+WHERE salary = 30000;
+
+-- Salary not equal to 30000
+SELECT * FROM employees
+WHERE salary != 30000;
+
+-- Salary greater than 30000
+SELECT * FROM employees
+WHERE salary > 30000;
+
+-- Salary less than 30000
+SELECT * FROM employees
+WHERE salary < 30000;
+
+-- Salary greater than or equal to 30000
+SELECT * FROM employees
+WHERE salary >= 30000;
+
+-- Salary less than or equal to 30000
+SELECT * FROM employees
+WHERE salary <= 30000;
+
+-- ==========================================
+-- BETWEEN OPERATOR
+-- ==========================================
+
+-- Salary between 25000 and 50000
+SELECT * FROM employees
+WHERE salary BETWEEN 25000 AND 50000;
+
+-- emp_id between 3 and 8
+SELECT * FROM employees
+WHERE emp_id BETWEEN 3 AND 8;
+
+-- ==========================================
+-- IN / NOT IN OPERATOR
+-- ==========================================
+
+-- Departments HR, Testing, Development
+SELECT * FROM employees
+WHERE department IN ('HR', 'Testing', 'Development');
+
+-- Employees not in HR
+SELECT * FROM employees
+WHERE department NOT IN ('HR');
+
+-- Employees from selected cities
+SELECT * FROM employees
+WHERE city IN ('Chennai', 'Madurai', 'Coimbatore');
+
+-- ==========================================
+-- LOGICAL OPERATORS
+-- ==========================================
+
+-- AND Operator
+SELECT * FROM employees
+WHERE salary > 30000
+AND department = 'Development';
+
+-- OR Operator
+SELECT * FROM employees
+WHERE department = 'HR'
+OR city = 'Chennai';
+
+-- NOT Operator
+SELECT * FROM employees
+WHERE NOT department = 'Testing';
+
+-- ==========================================
+-- LIKE OPERATOR
+-- ==========================================
+
+-- Names start with A
+SELECT * FROM employees
+WHERE emp_name LIKE 'A%';
+
+-- Names end with n
+SELECT * FROM employees
+WHERE emp_name LIKE '%n';
+
+-- Names contain a
+SELECT * FROM employees
+WHERE emp_name LIKE '%a%';
+
+-- Names with exactly 5 characters
+SELECT * FROM employees
+WHERE emp_name LIKE '_____';
+
+-- City starts with C
+SELECT * FROM employees
+WHERE city LIKE 'C%';
+
+-- City ends with i
+SELECT * FROM employees
+WHERE city LIKE '%i';
+
+-- ==========================================
+-- ORDER BY
+-- ==========================================
+
+-- Salary ascending
+SELECT * FROM employees
+ORDER BY salary ASC;
+
+-- Salary descending
+SELECT * FROM employees
+ORDER BY salary DESC;
+
+-- Employee names alphabetically
+SELECT * FROM employees
+ORDER BY emp_name ASC;
+
+-- ==========================================
+-- LIMIT / OFFSET
+-- ==========================================
+
+-- Top 5 records
+SELECT * FROM employees
+LIMIT 5;
+
+-- Top 3 highest paid employees
+SELECT * FROM employees
+ORDER BY salary DESC
+LIMIT 3;
+
+-- Skip first 2 records, display next 5
+SELECT * FROM employees
+LIMIT 5 OFFSET 2;
+
+-- Skip first 3 records, display next 4
+SELECT * FROM employees
+LIMIT 4 OFFSET 3;
+
+
+
+# ==========================================
+# VARIABLES
+# ==========================================
+
+a = 20
+b = 6
+
+print("Value of a =", a)
+print("Value of b =", b)
+
+# ==========================================
+# ARITHMETIC OPERATORS
+# ==========================================
+
+print("\n----- Arithmetic Operators -----")
+
+print("Addition:", a + b)
+print("Subtraction:", a - b)
+print("Multiplication:", a * b)
+print("Division:", a / b)
+print("Floor Division:", a // b)
+print("Modulus:", a % b)
+print("Exponentiation:", a ** b)
+
+# ==========================================
+# COMPARISON OPERATORS
+# ==========================================
+
+print("\n----- Comparison Operators -----")
+
+print("a == b :", a == b)
+print("a != b :", a != b)
+print("a > b  :", a > b)
+print("a < b  :", a < b)
+print("a >= b :", a >= b)
+print("a <= b :", a <= b)
+
+# ==========================================
+# LOGICAL OPERATORS
+# ==========================================
+
+print("\n----- Logical Operators -----")
+
+x = True
+y = False
+
+print("x and y =", x and y)
+print("x or y =", x or y)
+print("not x =", not x)
+
+# ==========================================
+# ASSIGNMENT OPERATORS
+# ==========================================
+
+print("\n----- Assignment Operators -----")
+
+num = 20
+
+num += 5
+print("After += 5 :", num)
+
+num -= 3
+print("After -= 3 :", num)
+
+num *= 2
+print("After *= 2 :", num)
+
+num /= 4
+print("After /= 4 :", num)
+
+num //= 2
+print("After //= 2 :", num)
+
+num %= 3
+print("After %= 3 :", num)
+
+num **= 2
+print("After **= 2 :", num)
+
+# ==========================================
+# BITWISE OPERATORS
+# ==========================================
+
+print("\n----- Bitwise Operators -----")
+
+print("Binary of a:", bin(a))
+print("Binary of b:", bin(b))
+
+print("a & b =", a & b)
+print("a | b =", a | b)
+print("a ^ b =", a ^ b)
+print("~a =", ~a)
+print("a << 1 =", a << 1)
+print("a >> 1 =", a >> 1)

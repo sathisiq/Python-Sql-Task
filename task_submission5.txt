@@ -1,0 +1,197 @@
+========================================
+MYSQL – KEYS & CONSTRAINTS
+==========================
+
+CREATE DATABASE IF NOT EXISTS company_db;
+USE company_db;
+
+DROP TABLE IF EXISTS staff;
+DROP TABLE IF EXISTS teams;
+
+CREATE TABLE teams (
+team_id INT PRIMARY KEY,
+team_name VARCHAR(50) NOT NULL
+);
+
+INSERT INTO teams VALUES
+(1,'Finance'),
+(2,'Marketing'),
+(3,'IT'),
+(4,'Operations'),
+(5,'Training');
+
+CREATE TABLE staff (
+staff_id INT PRIMARY KEY AUTO_INCREMENT,
+staff_name VARCHAR(100) NOT NULL,
+email VARCHAR(100) UNIQUE,
+salary DECIMAL(10,2) CHECK (salary > 12000),
+city VARCHAR(50) DEFAULT 'Bangalore',
+team_id INT,
+FOREIGN KEY(team_id) REFERENCES teams(team_id)
+);
+
+INSERT INTO staff (staff_name,email,salary,city,team_id) VALUES
+('Ravi','[ravi@gmail.com](mailto:ravi@gmail.com)',25000,'Chennai',1),
+('Kiran','[kiran@gmail.com](mailto:kiran@gmail.com)',28000,'Salem',2),
+('Meena','[meena@gmail.com](mailto:meena@gmail.com)',32000,'Madurai',3),
+('Priya','[priya@gmail.com](mailto:priya@gmail.com)',27000,'Trichy',4),
+('Suresh','[suresh@gmail.com](mailto:suresh@gmail.com)',35000,'Erode',5);
+
+SELECT * FROM teams;
+SELECT * FROM staff;
+
+SELECT s.staff_name,s.salary,t.team_name
+FROM staff s
+JOIN teams t
+ON s.team_id=t.team_id;
+
+========================================
+PYTHON – WHILE LOOP PROGRAMS
+============================
+
+# Program 1: Print numbers from 10 to 1
+
+i = 10
+while i >= 1:
+print(i)
+i -= 1
+
+# Program 2: Print multiples of 5 up to 50
+
+i = 5
+while i <= 50:
+print(i)
+i += 5
+
+# Program 3: Factorial of a number
+
+num = int(input("Enter a number: "))
+fact = 1
+i = 1
+
+while i <= num:
+fact *= i
+i += 1
+
+print("Factorial =", fact)
+
+# Program 4: Count digits in a number
+
+num = int(input("Enter a number: "))
+count = 0
+
+while num > 0:
+count += 1
+num //= 10
+
+print("Number of digits:", count)
+
+# Program 5: Check palindrome number
+
+num = int(input("Enter a number: "))
+temp = num
+rev = 0
+
+while num > 0:
+digit = num % 10
+rev = rev * 10 + digit
+num //= 10
+
+if temp == rev:
+print("Palindrome")
+else:
+print("Not Palindrome")
+
+========================================
+PYTHON – FOR LOOP PROGRAMS
+==========================
+
+# Program 1: Print numbers from 50 to 60
+
+for i in range(50, 61):
+print(i)
+
+# Program 2: Print squares from 1 to 10
+
+for i in range(1, 11):
+print(i * i)
+
+# Program 3: Count vowels in a string
+
+text = input("Enter a string: ")
+count = 0
+
+for ch in text:
+if ch.lower() in "aeiou":
+count += 1
+
+print("Vowels:", count)
+
+# Program 4: Multiplication table
+
+num = int(input("Enter number: "))
+
+for i in range(1, 11):
+print(num, "x", i, "=", num * i)
+
+# Program 5: Sum of even numbers from 1 to 100
+
+total = 0
+
+for i in range(2, 101, 2):
+total += i
+
+print("Sum =", total)
+
+========================================
+PYTHON – RANGE FUNCTION PROGRAMS
+================================
+
+# Program 1: range(length)
+
+for i in range(15):
+print(i)
+
+# Program 2: range(start, end)
+
+for i in range(20, 31):
+print(i)
+
+# Program 3: range(start, end, step)
+
+for i in range(100, 0, -10):
+print(i)
+
+========================================
+PYTHON – LOOP CONTROL STATEMENTS
+================================
+
+# Program 1: break statement
+
+for i in range(1, 15):
+if i == 10:
+break
+print(i)
+
+# Program 2: continue statement
+
+for i in range(1, 21):
+if i % 3 == 0:
+continue
+print(i)
+
+# Program 3: Skip spaces in a string
+
+text = input("Enter text: ")
+
+for ch in text:
+if ch == " ":
+continue
+print(ch)
+
+# Program 4: pass statement
+
+for i in range(1, 6):
+if i == 3:
+pass
+print(i)

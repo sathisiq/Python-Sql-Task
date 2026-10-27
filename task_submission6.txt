@@ -1,0 +1,185 @@
+ 
+-- Create Database
+CREATE DATABASE company_db;
+
+USE company_db;
+
+-- Create Departments Table
+CREATE TABLE departments (
+dept_id INT PRIMARY KEY,
+dept_name VARCHAR(50)
+);
+
+-- Create Employees Table
+CREATE TABLE employees (
+emp_id INT PRIMARY KEY,
+emp_name VARCHAR(100),
+salary DECIMAL(10,2),
+dept_id INT,
+FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);
+
+-- Insert Department Records
+INSERT INTO departments VALUES
+(1, 'HR'),
+(2, 'Finance'),
+(3, 'IT'),
+(4, 'Marketing'),
+(5, 'Operations');
+
+-- Insert Employee Records
+INSERT INTO employees VALUES
+(101, 'Arun', 25000, 1),
+(102, 'Bala', 30000, 2),
+(103, 'Charan', 35000, 3),
+(104, 'Deepak', 28000, 4),
+(105, 'Eswar', 40000, 5),
+(106, 'Farhan', 32000, 3),
+(107, 'Ganesh', 27000, 1),
+(108, 'Hari', 45000, 2),
+(109, 'Irfan', 38000, 4),
+(110, 'Jeeva', 50000, 5);
+
+========================================
+JOIN QUERIES
+============
+
+-- 1. Employee names with department names using INNER JOIN
+SELECT e.emp_name, d.dept_name
+FROM employees e
+INNER JOIN departments d
+ON e.dept_id = d.dept_id;
+
+-- 2. All employees and their department names using LEFT JOIN
+SELECT e.emp_name, d.dept_name
+FROM employees e
+LEFT JOIN departments d
+ON e.dept_id = d.dept_id;
+
+-- 3. All departments and their employees using RIGHT JOIN
+SELECT e.emp_name, d.dept_name
+FROM employees e
+RIGHT JOIN departments d
+ON e.dept_id = d.dept_id;
+
+-- 4. Simulate FULL OUTER JOIN
+SELECT e.emp_name, d.dept_name
+FROM employees e
+LEFT JOIN departments d
+ON e.dept_id = d.dept_id
+
+UNION
+
+SELECT e.emp_name, d.dept_name
+FROM employees e
+RIGHT JOIN departments d
+ON e.dept_id = d.dept_id;
+
+-- 5. Every possible combination using CROSS JOIN
+SELECT e.emp_name, d.dept_name
+FROM employees e
+CROSS JOIN departments d;
+
+-- 6. Total number of rows returned by CROSS JOIN
+SELECT COUNT(*) AS total_rows
+FROM employees
+CROSS JOIN departments;
+
+========================================
+PYTHON TASK - LISTS
+===================
+
+# Creating a list with 10 integer values
+
+numbers = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+print("Original List:", numbers)
+
+# Add an element using append()
+
+numbers.append(110)
+print("After append(110):", numbers)
+
+# Insert an element at the 3rd position
+
+numbers.insert(2, 25)
+print("After insert(2, 25):", numbers)
+
+# Extend the list using another list
+
+extra_numbers = [120, 130, 140]
+numbers.extend(extra_numbers)
+print("After extend():", numbers)
+
+# Remove an element using remove()
+
+numbers.remove(40)
+print("After remove(40):", numbers)
+
+# Remove the last element using pop()
+
+numbers.pop()
+print("After pop():", numbers)
+
+# Remove an element at a specific index
+
+numbers.pop(3)
+print("After pop(3):", numbers)
+
+# Find the index of an element
+
+index_value = numbers.index(60)
+print("Index of 60:", index_value)
+
+# Count occurrences of an element
+
+numbers.append(20)
+count_value = numbers.count(20)
+print("Count of 20:", count_value)
+
+# Reverse the list
+
+numbers.reverse()
+print("After reverse():", numbers)
+
+# Sort the list
+
+numbers.sort()
+print("After sort():", numbers)
+
+========================================
+PYTHON TASK - TUPLES
+====================
+
+# Creating a tuple with 8 elements
+
+my_tuple = (10, 20, 30, 40, 50, 20, 60, 70)
+
+print("Tuple:", my_tuple)
+
+# Index of an element
+
+print("Index of 40:", my_tuple.index(40))
+
+# Count occurrence of an element
+
+print("Count of 20:", my_tuple.count(20))
+
+# Accessing elements
+
+print("First Element:", my_tuple[0])
+print("Last Element:", my_tuple[-1])
+print("Fourth Element:", my_tuple[3])
+
+# Trying to modify tuple element
+
+try:
+my_tuple[0] = 100
+except TypeError as e:
+print("Error:", e)
+
+"""
+Expected Output:
+Error: 'tuple' object does not support item assignment
+
+This proves that tuples are immutable.
+"""
